@@ -1,13 +1,15 @@
-name: CodSpeed
+name: Benchmarks
 
+# Runs the benchmark corpus as a plain smoke test, without uploading anything:
+# performance numbers are only meaningful on CodSpeed's own infrastructure.
 on:
   push:
     branches: ["main"]
   pull_request:
     branches: ["main"]
+  workflow_dispatch:   # manual trigger button on GitHub Actions page
 
 permissions:
-  id-token: write
   contents: read
 
 jobs:
@@ -29,7 +31,4 @@ jobs:
         run: uv sync --frozen
 
       - name: Run the benchmarks
-        uses: CodSpeedHQ/action@373d6868929f444bc08d901fd0eb0ad52a8875ea # v5.2.1
-        with:
-          mode: instrumentation
-          run: uv run pytest tests/test_benchmarks.py --codspeed
+        run: uv run pytest tests/test_benchmarks.py
